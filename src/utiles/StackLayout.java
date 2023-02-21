@@ -5,13 +5,12 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Insets;
-import java.io.Serializable;
 
 
 import static java.lang.Math.max;
 
 
-public class StackLayout implements LayoutManager, Serializable {
+public class StackLayout implements LayoutManager {
 	public void addLayoutComponent(String name, Component c) {}
 	public void removeLayoutComponent(Component c) {}
 	

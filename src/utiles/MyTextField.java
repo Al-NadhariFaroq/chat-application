@@ -3,9 +3,8 @@ package utiles;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
-import java.io.Serializable;
 
-public class MyTextField extends JTextField implements Serializable {
+public class MyTextField extends JTextField  {
     private Shape shape;
     private int radian;
 

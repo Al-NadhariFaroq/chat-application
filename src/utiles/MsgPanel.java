@@ -3,11 +3,8 @@ package utiles;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-public class MsgPanel extends JPanel implements Serializable {
+public class MsgPanel extends JPanel {
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
     public static final int CENTER = 2;
@@ -31,6 +28,7 @@ public class MsgPanel extends JPanel implements Serializable {
 
     private void addMsg(String msg){
         MyTextField msgField = new MyTextField(msg);
+        msgField.setMaximumSize(new Dimension(225,55));
         msgField.setMargin(new Insets(3,2,3,2));
         if(align== RIGHT) {
             msgField.setBackground(new Color(83, 115, 213));
