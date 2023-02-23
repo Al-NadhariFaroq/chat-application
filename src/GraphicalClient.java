@@ -89,12 +89,14 @@ public class GraphicalClient implements User, ActionListener, KeyListener, Seria
 
     @Override
     public void joined(String msg) throws RemoteException {
+        chatPanel.setNumMembers(chat.getMembers().size());
         chatPanel.getConvPanel().add(new MsgPanel("",msg,MsgPanel.CENTER));
         repaint();
     }
 
     @Override
     public void left(String msg) throws RemoteException {
+        chatPanel.setNumMembers(chat.getMembers().size() - 1);
         chatPanel.getConvPanel().add(new MsgPanel("",msg,MsgPanel.CENTER));
         repaint();
     }
@@ -111,11 +113,34 @@ public class GraphicalClient implements User, ActionListener, KeyListener, Seria
             addSntMsg();
         }
         else if(e.getSource() == chatPanel.getMemBtn()){
-            System.out.println("Shows members");
+            try {
+                membersPanel.removeALLMembers();
+                for(User user:chat.getMembers())
+                    membersPanel.addMember(user.getName());
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
             changeMenu("members");
         }
         else if(e.getSource() == startPanel.getJoinBtn()){
-            changeMenu("chat");
+            try {
+                String username = startPanel.getUsernameTxt().getText();
+                if (username.trim().length() == 0){
+                    startPanel.getErrLbl().setText("<html>  <font color='red'> username cannot be empty!</font> </html>");
+                    startPanel.revalidate();
+                }
+                else if(!chat.nameAvail(username)) {
+                    startPanel.getErrLbl().setText("<html>  <font color='red'>" + username + " already taken!</font> </html>");
+                    startPanel.revalidate();
+                }
+                else{
+                    this.setName(username);
+                    chat.join(this);
+                    changeMenu("chat");
+                }
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         else if(e.getSource() == membersPanel.getBackBtn()){
             changeMenu("chat");
@@ -128,6 +153,10 @@ public class GraphicalClient implements User, ActionListener, KeyListener, Seria
                 throw new RuntimeException(ex);
             }
         }
+    }
+
+    private void setName(String username) {
+        this.name = username;
     }
 
     @Override
@@ -147,13 +176,12 @@ public class GraphicalClient implements User, ActionListener, KeyListener, Seria
     }
 
     public static void main(String[] args){
-        if (args.length != 2) {
-            System.out.println("Usage: java Client <rmiregistry host> <name>");
+       if (args.length != 1) {
+            System.out.println("Usage: java Client <rmiregistry host>");
             System.exit(1);
         }
 
-        try {
-            String host = args[0];
+        try {String host = args[0];
             // Get remote object reference
             Registry registry = LocateRegistry.getRegistry(host);
            Chat chat = (Chat) registry.lookup("ChatService");
@@ -163,10 +191,8 @@ public class GraphicalClient implements User, ActionListener, KeyListener, Seria
                System.exit(1);
           }
 
-            User user = new GraphicalClient("far",new ChatImp());
+            User user = new GraphicalClient("",new ChatImp());
             UnicastRemoteObject.exportObject(user, 0);
-            chat.join(user);
-
 
         } catch (Exception e) {
             System.err.println("Error on client: " + e);

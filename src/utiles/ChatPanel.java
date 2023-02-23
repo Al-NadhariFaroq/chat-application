@@ -9,6 +9,7 @@ public class ChatPanel extends JPanel {
     JPanel topPanel,bottomPanel,convPanel;
     JScrollPane scrollPane;
     JTextField msgField;
+    JLabel numMembers;
 
     public ChatPanel(){
         super();
@@ -26,7 +27,7 @@ public class ChatPanel extends JPanel {
         msgField = new MyTextField("Hello here!");
         msgField.setEditable(true);
 
-        JLabel numMembers = new JLabel("5 online users",JLabel.CENTER);
+        numMembers = new JLabel("0 users online",JLabel.CENTER);
         numMembers.setFont(new Font("Arial",Font.BOLD,12));
 
         memBtn = new MyButton("Members");
@@ -61,9 +62,6 @@ public class ChatPanel extends JPanel {
         return exitBtn;
     }
 
-    public JScrollPane getScrollPane() {
-        return scrollPane;
-    }
 
     public JTextField getMsgField() {
         return msgField;
@@ -71,5 +69,10 @@ public class ChatPanel extends JPanel {
 
     public JPanel getConvPanel() {
         return convPanel;
+    }
+
+    public void setNumMembers(int n){
+      numMembers.setText(n + " users online");
+      topPanel.revalidate();
     }
 }

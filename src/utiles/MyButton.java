@@ -10,7 +10,6 @@ public class MyButton extends JButton {
         super(label);
         setFocusable(false);
         Dimension size = getPreferredSize();
-        //size.width = size.height = Math.max(size.width, size.height);
         setPreferredSize(size);
         setContentAreaFilled(false);
     }
@@ -37,16 +36,5 @@ public class MyButton extends JButton {
         if (shape == null ||!shape.getBounds().equals(getBounds()))
             shape = new Ellipse2D.Float(0, 0, getWidth(), getHeight());
         return shape.contains(x, y);
-    }
-
-    // Test routine.
-    public static void main(String[] args) {
-        JButton button = new MyButton("Jackpot");
-        button.setBackground(Color.green);
-        JFrame frame = new JFrame();
-        frame.getContentPane().add(button);
-        frame.getContentPane().setLayout(new FlowLayout());
-        frame.setSize(150, 150);
-        frame.setVisible(true);
     }
 }

@@ -6,6 +6,8 @@ import java.awt.*;
 
 public class StartPanel extends JPanel {
     JButton joinBtn;
+    JTextField usernameTxt;
+    JLabel errLbl;
 
     public StartPanel() {
         GridBagConstraints gbc = new GridBagConstraints();
@@ -17,21 +19,21 @@ public class StartPanel extends JPanel {
         hostTxt.setEditable(true);
 
         JLabel usernameLbl = new JLabel("username : ",JLabel.RIGHT);
-        JTextField usernameTxt = new MyTextField("",6);
+        usernameTxt = new MyTextField("",6);
         usernameTxt.setEditable(true);
 
         joinBtn = new MyButton("Join");
         joinBtn.setBackground(new Color(231, 192, 32));
 
         JLabel wlcm = new JLabel("<html>  <font color='red'> Welcome </font> to RMI <font color='blue'> chat </font> </html>");
-        wlcm.setFont(new Font("Arial",Font.BOLD,20));
-        String er = "name already used!";
-        JLabel err = new JLabel("<html>  <font color='red'>"  +er+ "</font> </html>");
-       err.setFont(new Font("Arial",Font.BOLD,12));
+        wlcm.setFont(new Font("Arial",Font.BOLD,18));
+        errLbl = new JLabel("");
+       errLbl.setFont(new Font("Arial",Font.BOLD,11));
 
+       gbc.anchor = GridBagConstraints.CENTER;
         gbc.gridx = 2;
-        gbc.gridy = 0;
-        gbc.ipadx = 90;
+        gbc.gridy = 2;
+        gbc.ipadx = 100;
         add(wlcm,gbc);
 
 
@@ -42,7 +44,7 @@ public class StartPanel extends JPanel {
 
         gbc.gridx = 2;
         gbc.gridy = 3;
-        gbc.ipadx = 150;
+        gbc.ipadx = 140;
         add(hostTxt,gbc);
 
         gbc.gridx = 1;
@@ -52,7 +54,7 @@ public class StartPanel extends JPanel {
 
         gbc.gridx = 2;
         gbc.gridy = 4;
-        gbc.ipadx = 150;
+        gbc.ipadx = 140;
         add(usernameTxt,gbc);
 
         gbc.gridx = 3;
@@ -62,12 +64,20 @@ public class StartPanel extends JPanel {
 
         gbc.gridx = 2;
         gbc.gridy = 6;
-        gbc.ipadx = 80;
-        add(err,gbc);
+        gbc.ipadx = 140;
+        add(errLbl,gbc);
 
     }
 
     public JButton getJoinBtn() {
         return joinBtn;
+    }
+
+    public JTextField getUsernameTxt() {
+        return usernameTxt;
+    }
+
+    public JLabel getErrLbl() {
+        return errLbl;
     }
 }

@@ -17,15 +17,13 @@ public class MembersPanel extends JPanel {
         top.add(backBtn,BorderLayout.LINE_START);
 
         members = new DefaultListModel<>();
-        JList<String>  membersList= new JList<>(members);
+        JList<String> membersList= new JList<>(members);
         JScrollPane scrollPane = new JScrollPane(membersList);
         scrollPane.setViewportView(membersList);
         membersList.setFixedCellHeight(25);
         membersList.setFixedCellWidth(100);
         membersList.setBorder(new EmptyBorder(5,5, 5, 5));
         membersList.setFont(new Font("Arial",Font.BOLD, 14));
-        for(int i = 0; i < 50; i++)
-            addMember(i + "  Faroq");
 
         add(top, BorderLayout.NORTH);
         add(scrollPane,BorderLayout.CENTER);
@@ -37,5 +35,9 @@ public class MembersPanel extends JPanel {
 
     public MyButton getBackBtn() {
         return backBtn;
+    }
+
+    public void removeALLMembers() {
+        members.clear();
     }
 }

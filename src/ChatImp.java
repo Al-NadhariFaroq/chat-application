@@ -3,13 +3,15 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Collections.synchronizedList;
+
 public class ChatImp implements Chat, Serializable {
     String FILE_PATH= System.getProperty("user.home") + File.separator + ".chathistory" ;
     List<User> members ;
     List<String> msgHistory;
 
     public ChatImp(){
-        members =  new ArrayList<>();
+        members =  synchronizedList(new ArrayList<>());
         msgHistory = new ArrayList<>();
     }
 
@@ -27,7 +29,7 @@ public class ChatImp implements Chat, Serializable {
 
     public boolean nameAvail(String name) throws RemoteException {
         for(User user: members){
-            if(name.equals(user.getName()))
+            if(name.replaceAll("\\s+","").equalsIgnoreCase(user.getName().replaceAll("\\s+","")))
                 return false;
         }
         return true;
