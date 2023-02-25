@@ -103,10 +103,21 @@ public class GraphicalClient implements User, ActionListener, KeyListener, Seria
 
     @Override
     public void talk(String who, String msg) throws RemoteException {
-        chatPanel.getConvPanel().add(new MsgPanel(who,msg,MsgPanel.LEFT));
+        if(who.equals(this.name))
+            chatPanel.getConvPanel().add(new MsgPanel(who,msg,MsgPanel.RIGHT));
+        else
+            chatPanel.getConvPanel().add(new MsgPanel(who,msg,MsgPanel.LEFT));
         repaint();
     }
 
+
+
+    private void setName(String username) {
+        this.name = username;
+    }
+    /********************************************************************************
+     ************************* Listeners Methods ************************************
+    *********************************************************************************/
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == chatPanel.getSendBtn()) {
@@ -136,6 +147,8 @@ public class GraphicalClient implements User, ActionListener, KeyListener, Seria
                 else{
                     this.setName(username);
                     chat.join(this);
+                    chatPanel.getConvPanel().removeAll();
+                    chat.showHistory(this);
                     changeMenu("chat");
                 }
             } catch (RemoteException ex) {
@@ -155,14 +168,8 @@ public class GraphicalClient implements User, ActionListener, KeyListener, Seria
         }
     }
 
-    private void setName(String username) {
-        this.name = username;
-    }
-
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
+    public void keyTyped(KeyEvent e) { }
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -171,10 +178,11 @@ public class GraphicalClient implements User, ActionListener, KeyListener, Seria
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent e) {}
 
-    }
-
+    /********************************************************************************
+     *********************************** main ***************************************
+     *********************************************************************************/
     public static void main(String[] args){
        if (args.length != 1) {
             System.out.println("Usage: java Client <rmiregistry host>");
@@ -199,6 +207,5 @@ public class GraphicalClient implements User, ActionListener, KeyListener, Seria
             e.printStackTrace();
         }
     }
-
 }
 

@@ -8,8 +8,6 @@ public interface Chat extends Remote {
     boolean nameAvail(String name) throws RemoteException;
     boolean historyAvail() throws RemoteException;
     void showHistory(User to) throws RemoteException;
-
-    boolean deleteHistory() throws RemoteException;
     void broadcastMsg(User frm, String msg) throws RemoteException;
     List<User> getMembers()throws RemoteException;
     void exit(User user)throws RemoteException;

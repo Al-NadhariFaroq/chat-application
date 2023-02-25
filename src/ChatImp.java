@@ -6,15 +6,16 @@ import java.util.List;
 import static java.util.Collections.synchronizedList;
 
 public class ChatImp implements Chat, Serializable {
-    String FILE_PATH= System.getProperty("user.home") + File.separator + ".chathistory" ;
-    List<User> members ;
-    List<String> msgHistory;
+    private final String FILE_PATH= System.getProperty("user.home") + File.separator + ".chathistory" ;
+    private final List<User> members ;
+    private final List<String> messages;
 
     public ChatImp(){
         members =  synchronizedList(new ArrayList<>());
-        msgHistory = new ArrayList<>();
+        messages = new ArrayList<>();
     }
 
+    @Override
     public void join(User who) throws RemoteException {
         if(!members.contains(who)) {
             members.add(who);
@@ -27,6 +28,7 @@ public class ChatImp implements Chat, Serializable {
         }
     }
 
+    @Override
     public boolean nameAvail(String name) throws RemoteException {
         for(User user: members){
             if(name.replaceAll("\\s+","").equalsIgnoreCase(user.getName().replaceAll("\\s+","")))
@@ -35,13 +37,14 @@ public class ChatImp implements Chat, Serializable {
         return true;
     }
 
+    @Override
     public List<User> getMembers(){
         return members;
     }
 
     @Override
     public void broadcastMsg(User frm , String msg) throws RemoteException {
-        msgHistory.add(frm.getName() + " : " + msg);
+        messages.add(frm.getName() + " : " + msg);
         storeHistory(frm.getName() + " : " + msg);
         for(User user: members) {
             try {
@@ -53,6 +56,7 @@ public class ChatImp implements Chat, Serializable {
         }
     }
 
+    @Override
     public void exit(User who) throws RemoteException{
         for (User user : members) {
             if (!user.getName().equals(who.getName()))
@@ -65,9 +69,14 @@ public class ChatImp implements Chat, Serializable {
 
     @Override
     public void showHistory(User to) throws RemoteException {
-        for(String msg: msgHistory){
-            to.talk(msg.substring(0,msg.indexOf(':')),msg.substring(msg.indexOf(':') + 2));
+        for(String msg: messages){
+            to.talk(msg.substring(0,msg.indexOf(':')-1),msg.substring(msg.indexOf(':') + 2));
         }
+    }
+
+    @Override
+    public boolean historyAvail(){
+        return messages.size() >=1 ;
     }
 
     public void loadHistory(){
@@ -76,7 +85,7 @@ public class ChatImp implements Chat, Serializable {
             br = new BufferedReader(new FileReader(FILE_PATH));
             String st;
             while ((st = br.readLine()) != null)
-               msgHistory.add(st);
+               messages.add(st);
             br.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -101,16 +110,12 @@ public class ChatImp implements Chat, Serializable {
         return f.exists() && !f.isDirectory();
     }
 
-    @Override
-    public boolean historyAvail(){
-       return msgHistory.size() >=1 ;
-    }
 
-    @Override
-    public boolean deleteHistory(){
+    public boolean deleteBackup(){
         File f = new File(FILE_PATH);
         return f.delete();
     }
+
 }
 
 
