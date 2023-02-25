@@ -41,7 +41,6 @@ public class ChatImp implements Chat, Serializable {
 
     @Override
     public void broadcastMsg(User frm , String msg) throws RemoteException {
-        System.out.println("Broadcast");
         msgHistory.add(frm.getName() + " : " + msg);
         storeHistory(frm.getName() + " : " + msg);
         for(User user: members) {

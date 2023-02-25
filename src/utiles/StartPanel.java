@@ -14,16 +14,16 @@ public class StartPanel extends JPanel {
         gbc.insets = new Insets(1, 1, 1, 1);
         setLayout(new GridBagLayout());
 
-        JLabel hostLbl = new JLabel("host : ",JLabel.RIGHT);
-        JTextField hostTxt = new MyTextField("",6);
-        hostTxt.setEditable(true);
+        JLabel serviceLbl = new JLabel("service : ",JLabel.RIGHT);
+        JTextField serviceTxt = new MyTextField("ChatService",6);
+        serviceTxt.setEditable(true);
 
         JLabel usernameLbl = new JLabel("username : ",JLabel.RIGHT);
         usernameTxt = new MyTextField("",6);
         usernameTxt.setEditable(true);
 
         joinBtn = new MyButton("Join");
-        joinBtn.setBackground(new Color(231, 192, 32));
+        joinBtn.setBackground(new Color(227, 180, 72));
 
         JLabel wlcm = new JLabel("<html>  <font color='red'> Welcome </font> to RMI <font color='blue'> chat </font> </html>");
         wlcm.setFont(new Font("Arial",Font.BOLD,18));
@@ -40,12 +40,12 @@ public class StartPanel extends JPanel {
         gbc.gridx = 1;
         gbc.gridy = 3;
         gbc.ipadx = 10;
-        add(hostLbl,gbc);
+        add(serviceLbl,gbc);
 
         gbc.gridx = 2;
         gbc.gridy = 3;
         gbc.ipadx = 140;
-        add(hostTxt,gbc);
+        add(serviceTxt,gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 4;

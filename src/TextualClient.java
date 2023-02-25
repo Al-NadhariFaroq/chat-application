@@ -29,19 +29,22 @@ public class TextualClient implements User, Serializable {
             UnicastRemoteObject.exportObject(user, 0);
 
 
-            String help= "Welcome to RMI Chat type one of the commands below\n" +
-                         ":join     : to join the chat\n" +
-                         ":exit     : to leave the chat\n" +
-                         ":help     : to show this message\n" +
+            String help= "Welcome to RMI Chat\n" +
+                         " Type one of the commands below\n" +
+                         ":join       : to join the chat\n" +
+                         ":exit       : to leave the chat\n" +
+                         ":help       : to show this message\n" +
                          ":members    : to show chat members\n" +
-                         ":shutdown    : to exit this program\n" +
-                         "--------------------------------------------------\n";
+                         ":shutdown   : to exit this program\n" +
+                         "------------------------------------\n";
 
             /* main loop*/
             BufferedReader inReader = new BufferedReader(new InputStreamReader(System.in));
             System.out.println(help);
             boolean joined =  false;
             while (true) {
+                if(!joined)
+                    System.out.print("\033[0;32m" +"cmd" +  "\033[0m" + ">" );
                 String msg = inReader.readLine();
                 switch(msg){
                     case ":join":

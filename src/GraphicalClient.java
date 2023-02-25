@@ -21,8 +21,8 @@ public class GraphicalClient implements User, ActionListener, KeyListener, Seria
     CardLayout cl;
     Container c;
 
-    public GraphicalClient(String name, Chat chat){
-        this.name = name;
+    public GraphicalClient(Chat chat){
+        name ="";
         this.chat = chat;
         cl = new CardLayout();
         init();
@@ -191,7 +191,7 @@ public class GraphicalClient implements User, ActionListener, KeyListener, Seria
                System.exit(1);
           }
 
-            User user = new GraphicalClient("",new ChatImp());
+            User user = new GraphicalClient(chat);
             UnicastRemoteObject.exportObject(user, 0);
 
         } catch (Exception e) {

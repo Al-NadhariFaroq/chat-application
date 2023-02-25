@@ -13,7 +13,7 @@ public class MembersPanel extends JPanel {
         JPanel top = new JPanel(new BorderLayout());
         top.setBorder(new EmptyBorder(4, 2, 2, 2));
         backBtn = new MyButton("Back");
-        backBtn.setBackground(new Color(183, 177, 85));
+        backBtn.setBackground(new Color(227, 180, 72));
         top.add(backBtn,BorderLayout.LINE_START);
 
         members = new DefaultListModel<>();
