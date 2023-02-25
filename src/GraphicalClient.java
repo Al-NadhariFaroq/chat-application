@@ -31,6 +31,7 @@ public class GraphicalClient implements User, ActionListener, KeyListener, Seria
     private void init(){
        JFrame f = new JFrame();
         f.setSize(420,660);
+        f.setMinimumSize(new Dimension(420,660));
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setTitle("Let's chat");
         f.setLayout(cl);
@@ -146,9 +147,10 @@ public class GraphicalClient implements User, ActionListener, KeyListener, Seria
                 }
                 else{
                     this.setName(username);
-                    chat.join(this);
                     chatPanel.getConvPanel().removeAll();
-                    chat.showHistory(this);
+                    chat.showAllMessages(this);
+                    chat.join(this);
+                    startPanel.getErrLbl().setText("");
                     changeMenu("chat");
                 }
             } catch (RemoteException ex) {

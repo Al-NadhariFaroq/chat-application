@@ -25,15 +25,15 @@ public class StartPanel extends JPanel {
         joinBtn = new MyButton("Join");
         joinBtn.setBackground(new Color(227, 180, 72));
 
-        JLabel wlcm = new JLabel("<html>  <font color='red'> Welcome </font> to RMI <font color='blue'> chat </font> </html>");
+        JLabel wlcm = new JLabel("<html>  <font color='red'> Welcome </font> to RMI <font color='blue'> chat </font> </html>",JLabel.CENTER);
         wlcm.setFont(new Font("Arial",Font.BOLD,18));
-        errLbl = new JLabel("");
+        errLbl = new JLabel("",JLabel.CENTER);
        errLbl.setFont(new Font("Arial",Font.BOLD,11));
 
        gbc.anchor = GridBagConstraints.CENTER;
         gbc.gridx = 2;
         gbc.gridy = 2;
-        gbc.ipadx = 100;
+        gbc.ipadx = 120;
         add(wlcm,gbc);
 
 
@@ -59,7 +59,7 @@ public class StartPanel extends JPanel {
 
         gbc.gridx = 3;
         gbc.gridy = 4;
-        gbc.ipadx = 20;
+        gbc.ipadx = 10;
         add(joinBtn,gbc);
 
         gbc.gridx = 2;
@@ -79,5 +79,14 @@ public class StartPanel extends JPanel {
 
     public JLabel getErrLbl() {
         return errLbl;
+    }
+
+    public static void main(String[] args){
+        JFrame f = new JFrame("Test");
+        f.setSize(new Dimension(420,660));
+        f.setMinimumSize(new Dimension(420,660));
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.add(new StartPanel());
+        f.setVisible(true);
     }
 }

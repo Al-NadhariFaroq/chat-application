@@ -12,7 +12,8 @@ public class ChatImp implements Chat, Serializable {
 
     public ChatImp(){
         members =  synchronizedList(new ArrayList<>());
-        messages = new ArrayList<>();
+        messages = synchronizedList(new ArrayList<>());
+        restoreMessages();
     }
 
     @Override
@@ -45,7 +46,7 @@ public class ChatImp implements Chat, Serializable {
     @Override
     public void broadcastMsg(User frm , String msg) throws RemoteException {
         messages.add(frm.getName() + " : " + msg);
-        storeHistory(frm.getName() + " : " + msg);
+        addToBackup(frm.getName() + " : " + msg);
         for(User user: members) {
             try {
                 if(!user.getName().equals(frm.getName()))
@@ -68,7 +69,7 @@ public class ChatImp implements Chat, Serializable {
     }
 
     @Override
-    public void showHistory(User to) throws RemoteException {
+    public void showAllMessages(User to) throws RemoteException {
         for(String msg: messages){
             to.talk(msg.substring(0,msg.indexOf(':')-1),msg.substring(msg.indexOf(':') + 2));
         }
@@ -79,22 +80,31 @@ public class ChatImp implements Chat, Serializable {
         return messages.size() >=1 ;
     }
 
-    public void loadHistory(){
-        BufferedReader br;
-        try {
-            br = new BufferedReader(new FileReader(FILE_PATH));
-            String st;
-            while ((st = br.readLine()) != null)
-               messages.add(st);
-            br.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public void restoreMessages(){
+        File f = new File(FILE_PATH);
+        if(f.exists() && !f.isDirectory()) {
+            BufferedReader br;
+            String rep;
+            try{
+                br = new BufferedReader(new InputStreamReader(System.in));
+                System.out.println("Messages Backup found! ");
+                System.out.println("Restore messages? yes/no : ");
+                rep = br.readLine();
+                if(rep.equalsIgnoreCase("yes")) {
+                    br = new BufferedReader(new FileReader(FILE_PATH));
+                    String st;
+                    while ((st = br.readLine()) != null)
+                        messages.add(st);
+                }
+                br.close();
+                deleteBackup();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
-
-
     }
 
-    public void storeHistory(String msg){
+    public synchronized void addToBackup(String msg){
         Writer output;
         try {
             output = new BufferedWriter(new FileWriter(FILE_PATH,true));
@@ -105,15 +115,9 @@ public class ChatImp implements Chat, Serializable {
         }
     }
 
-    public boolean backUpAvail(){
+    public void deleteBackup(){
         File f = new File(FILE_PATH);
-        return f.exists() && !f.isDirectory();
-    }
-
-
-    public boolean deleteBackup(){
-        File f = new File(FILE_PATH);
-        return f.delete();
+        f.delete();
     }
 
 }

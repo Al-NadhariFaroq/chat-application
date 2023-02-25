@@ -27,8 +27,8 @@ public class ChatPanel extends JPanel {
         msgField = new MyTextField("Hello here!");
         msgField.setEditable(true);
 
-        numMembers = new JLabel("0 users online",JLabel.CENTER);
-        numMembers.setFont(new Font("Arial",Font.BOLD,12));
+        numMembers = new JLabel("",JLabel.CENTER);
+        numMembers.setFont(new Font("Arial",Font.BOLD,14));
 
         memBtn = new MyButton("Members");
         memBtn.setBackground(new Color(227, 180, 72));
@@ -72,7 +72,7 @@ public class ChatPanel extends JPanel {
     }
 
     public void setNumMembers(int n){
-      numMembers.setText(n + " users online");
+      numMembers.setText("<html><font color='green'> " + n + " users online </font> </html>");
       topPanel.revalidate();
     }
 }

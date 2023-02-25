@@ -30,7 +30,7 @@ public class MembersPanel extends JPanel {
     }
 
     public void addMember(String name){
-        members.addElement(name);
+        members.addElement("- " + name);
     }
 
     public MyButton getBackBtn() {

@@ -29,8 +29,7 @@ public class TextualClient implements User, Serializable {
             UnicastRemoteObject.exportObject(user, 0);
 
 
-            String help= "Welcome to RMI Chat\n" +
-                         " Type one of the commands below\n" +
+            String help= "Type one of the commands below\n" +
                          ":join       : to join the chat\n" +
                          ":exit       : to leave the chat\n" +
                          ":help       : to show this message\n" +
@@ -40,6 +39,7 @@ public class TextualClient implements User, Serializable {
 
             /* main loop*/
             BufferedReader inReader = new BufferedReader(new InputStreamReader(System.in));
+            user.logo();
             System.out.println(help);
             boolean joined =  false;
             while (true) {
@@ -52,16 +52,16 @@ public class TextualClient implements User, Serializable {
                             System.out.print("Choose pseudo:");
                             String pseudo = inReader.readLine();
                             while ( !chat.nameAvail(pseudo)){
-                                System.out.print(pseudo + " already taken! Choose another one:");
+                                System.out.print(pseudo + " already taken!:");
                                 pseudo = inReader.readLine();
                             }
                             user.setName(pseudo);
                             chat.join(user);
                             if(chat.historyAvail()){
-                                System.out.print("Chat history was found,show previous messages? yes/no : ");
+                                System.out.print("Chat history found,show previous messages? yes/no : ");
                                 String showHist = inReader.readLine();
                                 if(showHist.equalsIgnoreCase("yes"))
-                                    chat.showHistory(user);
+                                    chat.showAllMessages(user);
                             }
                             joined = true;
                         }
@@ -94,6 +94,8 @@ public class TextualClient implements User, Serializable {
                     default:
                         if (joined && msg.trim().length() > 0)
                             chat.broadcastMsg(user, msg);
+                        else
+                            System.out.println("\033[0;31m" +"Invalid command!" +  "\033[0m");
                         break;
 
                 }
@@ -102,6 +104,17 @@ public class TextualClient implements User, Serializable {
             System.err.println("Error on client: " + e);
             e.printStackTrace();
         }
+    }
+
+    private void logo(){
+        System.out.println("\033[0;36m" + " _____  __  __ _____    _____ _           _   " + "\033[0m");
+        System.out.println("\033[0;32m" + "|  __ \\|  \\/  |_   _|  / ____| |         | |  " + "\033[0m");
+        System.out.println("\033[0;33m" + "| |__) | \\  / | | |   | |    | |__   __ _| |_ " + "\033[0m");
+        System.out.println("\033[0;35m" + "|  _  /| |\\/| | | |   | |    | '_ \\ / _` | __|" + "\033[0m");
+        System.out.println("\033[0;34m" + "| | \\ \\| |  | |_| |_  | |____| | | | (_| | |_ " + "\033[0m");
+        System.out.println("\033[0;36m" + "|_|  \\_\\_|  |_|_____|  \\_____|_| |_|\\__,_|\\__| Version 1.0" + "\033[0m");
+        System.out.println();
+        System.out.println();
     }
 
     @Override
