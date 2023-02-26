@@ -24,7 +24,7 @@ public class ChatPanel extends JPanel {
 
         bottomPanel = new JPanel(new BorderLayout(2,2));
         bottomPanel.setBorder(new EmptyBorder(2, 2, 2, 2));
-        msgField = new MyTextField("Hello here!");
+        msgField = new MyTextField("");
         msgField.setEditable(true);
 
         numMembers = new JLabel("",JLabel.CENTER);
